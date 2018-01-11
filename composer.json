@@ -1,0 +1,14 @@
+{
+  "name": "zeed/cryptor",
+  "description": "Simple to use class for encrypting/decrypting using the PHP Openssl library.",
+  "type": "library",
+  "license": "MIT",
+  "require": {
+    "ext-openssl": "*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Zeed\\Cryptor\\": "src/"
+    }
+  }
+}
