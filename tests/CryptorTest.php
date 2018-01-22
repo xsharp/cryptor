@@ -2,7 +2,7 @@
 
 use Zeed\Cryptor\Cryptor;
 
-require_once dirname(__FILE__) . '/../src/Cryptor.php';
+require_once __DIR__ . '/../src/Cryptor.php';
 
 $prik = '-----BEGIN RSA PRIVATE KEY-----
 MIICXQIBAAKBgQCtxKMuGIv1ERWmJm4g7a9SfOXymu1pGv1AolFnkjHSa+edVJop
@@ -28,20 +28,22 @@ As9Te5B1B+sATVa7cQIDAQAB
 -----END PUBLIC KEY-----';
 
 $t1 = <<<EOT
-富强、民主、文明、和谐；自由、平等、公正、法治；爱国、敬业、诚信、友善
+富强、民主、文明、和谐；
+自由、平等、公正、法治；
+爱国、敬业、诚信、友善。
 EOT;
 
-echo "原始内容：" . $t1 . PHP_EOL . PHP_EOL;
+echo "原始内容：\n" . $t1 . PHP_EOL . PHP_EOL;
 
 $enPrivate = Cryptor::openssl_private_encrypt($t1, $prik);
-echo "私钥加密(base64_encode)：" . base64_encode($enPrivate) . PHP_EOL;
+echo "私钥加密（Base64）：" . base64_encode($enPrivate) . PHP_EOL;
 
 $dePublic = Cryptor::openssl_public_decrypt($enPrivate, $pubk);
-echo "公钥解密：" . $dePublic . PHP_EOL . PHP_EOL;
+echo "公钥解密：\n" . $dePublic . PHP_EOL . PHP_EOL;
 
 
 $enPublic = Cryptor::openssl_public_encrypt($t1, $pubk);
-echo "公钥加密(base64_encode)：" . base64_encode($enPublic) . PHP_EOL;
+echo "公钥加密（Base64）：" . base64_encode($enPublic) . PHP_EOL;
 
 $dePrivate = Cryptor::openssl_private_decrypt($enPublic, $prik);
-echo "私钥解密：" . $dePrivate . PHP_EOL;
+echo "私钥解密：\n" . $dePrivate . PHP_EOL;
