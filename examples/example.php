@@ -37,13 +37,17 @@ echo "原始内容：\n" . $t1 . PHP_EOL . PHP_EOL;
 
 $enPrivate = Cryptor::openssl_private_encrypt($t1, $prik);
 echo "私钥加密（Base64）：" . base64_encode($enPrivate) . PHP_EOL;
-
 $dePublic = Cryptor::openssl_public_decrypt($enPrivate, $pubk);
 echo "公钥解密：\n" . $dePublic . PHP_EOL . PHP_EOL;
 
 
 $enPublic = Cryptor::openssl_public_encrypt($t1, $pubk);
 echo "公钥加密（Base64）：" . base64_encode($enPublic) . PHP_EOL;
-
 $dePrivate = Cryptor::openssl_private_decrypt($enPublic, $prik);
-echo "私钥解密：\n" . $dePrivate . PHP_EOL;
+echo "私钥解密：\n" . $dePrivate . PHP_EOL . PHP_EOL;
+
+
+$signPrivate = Cryptor::openssl_sign($t1, $prik);
+echo "私钥签名：" . $signPrivate . PHP_EOL;
+$verifyPublic = Cryptor::openssl_verify($t1, $signPrivate, $pubk);
+echo "公钥验签：" . ($verifyPublic ? '成功' : '失败');

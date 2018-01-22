@@ -41,26 +41,23 @@ class Cryptor
      *
      * @param string $data_str
      * @param string $sign
-     * @param string|resource $pkey
+     * @param mixed $pub_key_id
      * @param mixed $signature_alg
      *            默认：OPENSSL_ALGO_SHA1，有的渠道是：OPENSSL_ALGO_MD5
      * @return number
      */
-    public static function openssl_verify($data_str, $sign, $pkey, $signature_alg = null)
+    public static function openssl_verify($data_str, $sign, $pub_key_id, $signature_alg = OPENSSL_ALGO_SHA1)
     {
-        if (is_string($pkey)) {
-            $public_key_id = openssl_pkey_get_public(self::pkeyFormatWithLabel($pkey, Label::CERT_LABEL_PUBLIC));
-        } elseif (is_resource($pkey)) {
-            $public_key_id = $pkey;
+        if (is_string($pub_key_id)) {
+            $public_key_id = openssl_pkey_get_public(self::pkeyFormatWithLabel($pub_key_id, Label::CERT_LABEL_PUBLIC));
+        } elseif (is_resource($pub_key_id)) {
+            $public_key_id = $pub_key_id;
         } else {
             return 0;
         }
 
-        if (is_null($signature_alg)) {
-            $result = openssl_verify($data_str, base64_decode($sign), $public_key_id);
-        } else {
-            $result = openssl_verify($data_str, base64_decode($sign), $public_key_id, $signature_alg);
-        }
+        $result = openssl_verify($data_str, base64_decode($sign), $public_key_id, $signature_alg);
+
         openssl_free_key($public_key_id);
 
         return $result;
